@@ -5,6 +5,7 @@ class Register:
 
     def getlast(self, address):
         if address not in self.contents:
+            self.contents[address] = ""
             return "□"
         else:
             return self.contents[address][-1]
@@ -22,11 +23,12 @@ class Register:
         if address in self.contents:
             if self.contents[address].endswith(character):
                 self.contents[address] = self.contents[address][:-1]
-            if self.contents[address] == "":
-                self.contents.pop(address)
+        else:
+            self.contents[address] = ""
 
     def echo(self, address):
         if address not in self.contents:
+            self.contents[address] = ""
             print("□")
         elif self.is_empty(address):
            print("□")
@@ -57,52 +59,47 @@ class Register:
 
 alphabet = 'abc'
 
-class Map:
-    def __init__(self, default, list_of_values, alphabet):
-        self.alphabet = set(alphabet)
-        self.mappings = dict((k, default) for k in self.alphabet)
-        for pair in list_of_values:
-            for char in intersection(set(pair[1]), self.alphabet):
-                self.mappings[char] = pair[0]
+class Alphabet:
+    def __init__(self, alphabet):
+        self.alphabet = list(set(alphabet))
 
     def __setitem__(self, key, item): 
-        self.mappings[key] = item
-        self.alphabet.add[key]
+        self.alphabet[key] = item
 
     def __getitem__(self, key): 
-        return self.mappings[key]
+        return self.alphabet[key]
 
     def __repr__(self): 
-        return repr(self.mappings)
+        return repr(self.alphabet)
 
     def __len__(self): 
-        return len(self.mappings)
+        return len(self.alphabet)
 
     def __delitem__(self, key): 
-        del self.mappings[key]
-        self.alphabet.remove(key)
+        del self.alphabet[key]
 
     def keys(self): 
-        return self.mappings.keys()
+        return self.alphabet.keys()
 
     def values(self):
-        return self.mappings.values()
+        return self.alphabet.values()
 
     def __cmp__(self, dict):
-        return cmp(self.mappings, dict)
+        return cmp(self.alphabet, dict)
 
     def __contains__(self, item):
-        return item in self.mappings
+        return item in self.alphabet
 
     def add(self, key, value):
-        self.mappings[key] = value
-        self.alphabet.add(key)
+        self.alphabet[key] = value
+        self.alphabet = list(set(self.alphabet))
+
 
     def __iter__(self):
-        return iter(self.mappings)
+        return iter(self.alphabet)
 
     def __call__(self):
-        return self.mappings
+        return self.alphabet
 
     def __unicode__(self):
-        return unicode(repr(self.mappings))
+        return unicode(repr(self.alphabet))
